@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[noend]{algpseudocode}
+
+\title{Solución de Matrices Tridiagonales}
+\author{Diego Barajas y Brandonn Cruz}
+\date{August 2018}
+
+\begin{document}
+
+\maketitle
+
+\section{Problema}
+
+Resolver un sistema de ecuaciones, el cual puede ser representado por una matriz tridiagonal de la forma:\\
+
+\begin{center}
+\begin{array}{<formato>}
+b_1 & c_1 & 0 & 0 & 0 & | x_1 = d_1\\
+a_1 & b_2 & c_2 & 0 & 0 & | x_2 = d_2\\
+0 & a_2 & b_3 & \ddots & 0 & | x_3 = d_3\\
+0 & 0 & \ddots & \ddots & c_n_-_1 & | x_{n-1} = d_{n-1}\\
+0 & 0 & 0 & a_n_-_1 & b_n_-_1 & | x_{n} = d_{n}\\
+\end{array}
+\end{center}
+
+\section{Formalización}
+\subsection{Entradas}
+Matriz tridiagonal M, representada por los vectores A, B, C y D. Tal que $|A| = n - 1$, $|B| = n$, $|C| = n - 1$ $|D| = n$. Siendo n el número de incognitas del sistema de ecuaciones.\\
+Cada vector tiene la forma:\\
+$A = [a_{0},a_{1},a_{2},...,a_{n-1},]$\\
+$B = [b_{0},b_{1},b_{2},...,b_{n}]$\\
+$C = [c_{0},c_{1},c_{2},...,c_{n-1}]$\\
+$D = [d_{0},d_{1},d_{2},...,d_{n}]$\\
+Cada elemento e $\epsilon$ a cada vector V, debe cumplir: e $\epsilon$ $\mathbb{R}$.
+\subsection{Salidas}
+Solución al sistema de ecuaciones representado por la matriz tridiagonal. Es decir un vector R de tamaño n ($|R| = n$).
+
+\section{Deducción de la fórmula}
+La deducción del algoritmo de Thomas se da de la siguiente forma:\\
+Se comienza con un sistema de ecuaciones de entrada de la siguiente forma:\\
+\begin{equation}
+$b_{1}x_{1} + c_{1}x_{2} = d_{1}$\\
+$a_{2}x_{1} + b_{2}x_{2} + c_{2}x_{3} = d_{2}$\\
+$a_{3}x_{2} + b_{3}x_{3} + c_{3}x_{4}= d_{3}$\\
+$a_{4}x_{3} + b_{4}x_{4}= d_{4}$\\
+\end{equation}
+Los $a_{i}$ se denominan subdiagonal de coeficientes, los $b_{i}$ como la diagonal de coeficientes, y $c_{i}$ como super diagonal de coeficientes. Los índices i indican el número de la fila. Lo que se hace a continuación es realizar operaciones de fila que permitan convertir la sugdiagonal de coeficientes en 0, y transformar los coeficientes de la diagonal en 1, de la forma:\\
+\begin{equation}
+$x_{1} + c'_{1}x_{2} = d'_{1}$\\
+$x_{2} + c'_{2}x_{3} = d'_{2}$\\
+$x_{3} + c'_{3}x_{4} = d'_{3}$\\
+$x_{4} = d'_{4}$\\
+\end{equation}
+Para convertir el sistema de ecuaciones (1) a (2) es necesario encontrar una expresión para cada $c'_{i}$ y $d'_{i}$. Al comparar los sistemas de ecuaciones, es posible notar que $c'_{1} = c_{1}/b_{1}$ y $d'_{1} = f_{1}/b_{1}$. Para obtener la segunda fila del sistema de ecuaciones (2) se elimina $x_{1}$ entre la primera fila de (2) y la segunda fila de (1). La primera fila de (2) es multiplicada por $a_{2}$ y esta se le resta a la sagunda fila de (1). Generando la ecuación:\\
+\begin{equation}
+$(b_{2} - a_{2}c'_{1})x_{2} + c_{2}x_{3} = d_{2} - a_{2}d'_{1}$\\
+\end{equation}
+Con (3) se obtiene la ecuación:\\
+\begin{equation}
+$x_{2} + (c_{2}/(b_{2} - a_{2}c'_{1}))x_{3} = (d_{2} - a_{2}d'_{1})/(b_{2} - a_{2}c'_{1})$\\
+\end{equation}
+La ecuación (4) ahora está en la forma de la segunda fila del sistema de ecuaciones (2). Luego $c'_{2} = c_{2}/(b_{2} - a_{2}c'_{1})$ y $d'_{2} = (d_{2} - a_{2}d'_{1})/(b_{2} - a_{2}c'_{1})$. Continuando con las demás filas, se identifica que la relación es:\\
+\begin{equation}
+$(b_{i} - a_{i}c'_{i - 1})$\\
+\end{equation}
+
+\begin{equation}
+$c'_{i} = c_{i}/(b_{i} - a_{i}c'_{i - 1})$\\
+\end{equation}
+
+\begin{equation}
+$d'_{i} = (d_{i} - a_{i}d'_{i - 1})/(b_{i} - a_{i}c'_{i - 1})$\\
+\end{equation}
+La solución del sistema es entonces la sustitución desde $x_{4} = d'_{4}$ hacia atrás, hasta llegar a la primera fila. En general $x_{n} = d'_{n}$, donde n es el número de ecuaciones, y para cada i < n:\\
+\begin{equation}
+$x_{i} = d'_{i} - c'_{i}x_{i + 1}$\\
+\end{equation}
+Esta deducción de la fórmula ha sido parafraseada del documento del Profesor C. Espinoza (Ver el apartado de Guía de librerías usadas).
+
+\section{Pseudocódigo}
+
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+
+\Procedure{$tridiagonales$}{$a, b, c, d, cifras$}
+    \STATE $c[1] <- c[1]/b[1]$
+    \STATE $d[1] <- d[1]/b[1]$
+    \FOR{$i <- 2 to |c|$}
+        \STATE $c[i] <- c[i]/(b[i]-(c[i-1]*a[i-1]))$
+    \ENDFOR
+    \FOR{$i <- 2 to |d|$}
+        \STATE $d[i] = (d[i]-(d[i-1]*a[i-1]))/(b[i]-(c[i-1]*a[i-1]))$
+    \ENDFOR
+    
+    \STATE $x = \phi$
+    \FOR{$i to |d|$}
+        \STATE $x = x \bicup 0$
+    \ENDFOR
+    
+    \STATE $x[|d|] = d[|d|]$
+    \FOR{$i <- |d|-1 to -1 step -1$}
+        \STATE $x[i] = (d[i] - (c[i]*x[i+1]))$
+        \STATE $x[i] = round(x[i], cifras)$
+    \ENDFOR
+    \RETURN $x$
+\EndProcedure
+\end{algorithmic}
+\caption{Algoritmo de Thomas}
+\end{algorithm}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+
+\Procedure{$converge$}{$x, a, b, c, d$}
+    \FOR{$i <- 1 to |d|$}
+        \IF{$((a[i] * x[i - 1]) + (b[i] * x[i]) + (c[i] * x[i - 2]))$ $\neq$ $d[i]$}
+            \RETURN $-1$
+        \ENDIF
+    \ENDFOR
+    \RETURN $0$
+\EndProcedure
+\end{algorithmic}
+\caption{Algoritmo de comprobar la solución}
+\end{algorithm}
+
+\newpage
+
+\section{Condiciones de convergencia}
+Para la convergencia de este método, se requiere que:\\
+\begin{itemize}
+    \item Se reciba una matriz tridiagonal.
+    \item Cualquier matriz hermítica puede convertirse en una matriz tridiagonal mediate una transformación ortogonal usando el algoritmo de Lanczos.
+\end{itemize}
+(Wikipedia, 2018)\\
+Para saber si la respuesta arrojada por el algoritmo es correcta, se comprueba que reemplazando los valores $x_{i}$ dados por el algoritmo en el sistema de ecuaciones original de como resultado $d_{i}$. Es decir, se comprueba las siguientes igualdades:\\
+$a_{1}x_{-1} + b_{1}x_{1} + c{2}x_{2} = d_{1}$\\
+$a_{2}x_{1} + b_{2}x_{2} + c_{3}x_{4} = d_{2}$\\
+$...$\\
+$a_{i}x_{i - 1} + b_{i}x_{i} + c_{i}x_{i + 1} = d_{i}$\\
+Nótese que se hace referencia a c y d, no a $c'$ y $d'$.
+\section{Guía de librerías usadas}
+Para el desarrollo de este documento no se usó ninguna librería de python, lo único que se usó fue la documentación del algoritmo de Thomas encontrada en la wikipedia y en los dcumentos $\textit{Algoritmo de Thomas para matrices Tridiagonales}$ del profesor C. Espinoza; $\textit{Álgebra lineal con aplicaciones y Python}$ de Ernesto Aranda.
+\section{Consistencia}
+
+Gracias a que se conocia la complejidad del algoritmo de thomas de antemano, siendo esta de O(n) y al conocer que la forma en la que se resuelven las matrices tridiagonales es con un metodo directo, se tenia la hipotesis de que el algortimo es igual de consistente con cualquier problema bien planteado que se le presente.\\ Al realizarse pruebas con el algortimo de thomas a diferentes tamaños de matrices tridiagonales desde matrices de tamaño 5 hasta matrices de tamaño 1000000 se concluyó que la hipotesis es veridica.
+
+\section{Aplicación en un problema}
+Algunas de las aplicaciones de los sistemas de ecuaciones lineales es la resolución de ecuaciones diferenciales. Por ejemplo:\\
+La distribución de temperatura de una varilla unidimensional de longitud 1 que noestá sometida a ninguna fuente de calor, y en cuyos extremos existe una temperatura dada por los valores de las condiciones iniciales $u(0) = 0$, $u(1) = 0$. Si se añade una fuente de calor sobre la varilla, medida a través de la función $f(x) = 4\pi^{2}sin(5 \pi x)$, el modelo matemático que se proporciona cómo se distribuye el calor en la varilla viene dado de la siguiente forma:\\
+\begin{equation}
+$-u''(x) = f(x) = 4\pi^{2}sin(5\pix)$, $x \epsilon [0,1]$\\
+$u(0) = 0 = u(1) = 0$\\
+\end{equation}
+Para ciertas funciones es posible calcular analíticamente la solución de esta ecuación diferencial, pero en general puede ser difícil, o incluso imposible, encontrar una expreción explícita para u. En estos casos es necesario acudir al Análisis Numérico. En primer lugar hay que rebajar la intención de encontrar la solución como una función exacta, con infinitos valores en el intervalo $[0,1]$, y buscar en su lugar un número finito de valores de la misma; esto es lo que se conoce como discretización.\\
+Para ello se va a tomar una cantidad n = 5 de nodos y $h = 1/(n+1)$, el denominado paso de discretización, quedando:\\
+\begin{equation}
+$x_{i} = ih, 0 \leq i \leq n + 1$\\
+$x_{i} = ih, 0 \leq i \leq 6$\\
+\end{equation}
+Obsérvese que $x_{0} = 0 < x_{1} < x_{2} < ... < x_{n} < x_{n + 1} = 1$. La intención es encontrar los valores de la solución de (9) en estos nodos. Por ejemplo, ya se sabe que $u(x_{0}) = 0$ y $u(x_{n} + 1) = 0$, por tanto queda encontrar $u(x_{i}), 1 \leq i \leq n$, es decir, n = 5 valores que serán incógnitas. Por otra parte, parece evidente pensar que cuantos más puntos consideremos en la discretización mejor será la aproximación de la solución que obtengamos.\\
+El siguiente paso consiste en escribir la ecuación $-u''(x) = f(x)$ en función de esos valores. La cuestión es cómo evaluar $u''$. Es conocide que el valor de la derivada en un punto x se puede aproximar por cocientes incrementales del tipo:\\
+$u'(x) \approx (u(x + t) - u(x))/t \approx (u(x - t) - u(x))/t \approx (u(x + t) - u(x - t))/2t$\\
+De forma similar se puede obtener una aproximación de la derivada segunda:\\
+$u''(x) \approx (u(x + t) - 2u(x) + u(x - t))/t^{2}$\\
+Estas expresiones son más precisas cuanto más pequeño es t. Si ponemos t = h en la última expresión y evaluamos en un nodo $x_{i}$, queda:\\
+$u''(x_{i}) \approx (u(x_{i + 1}) - 2u(x_{i}) + u(x_{i - 1}))/h^{2}$\\
+debido a la definición que se ha tomado de los nodos. Con objeto de simplificar la notación pondremos $u(x_{i}) = u_{i}$, y de forma similar $f(x_{i} = f_{i})$.\\
+A continuación se sustituye la ecuación en x por la evaluación de la misma en cada uno de los nodos obteniendo el siguiente problema discreto:\\
+\begin{equation}
+$-(u_{i + 1} - 2u_{i} + u_{i - 1})/h^{2} = f_{i}, 1 \leq i \leq n$\\
+\end{equation}
+Dado que $u_{0} = 0$, $u_{6} = 0$ y $f_{i}, 1 \leq i \leq n$ son valores conocidos, estamos ante un sistema lineal de n ecuaciones con n incógnitas.\\
+Si escribimos una a una las ecuaciones de (11) resulta:\\
+$-u_{0} + 2u_{1} - u_{2}) = h^{2}f_{1}$\\
+$-u_{1} + 2u_{2} - u_{3}) = h^{2}f_{2}$\\
+$-u_{2} + 2u_{3} - u_{4}) = h^{2}f_{3}$\\
+$-u_{3} + 2u_{4} - u_{5}) = h^{2}f_{4}$\\
+$-u_{4} + 2u_{5} - u_{6}) = h^{2}f_{5}$\\
+Escribiendo en forma matricial queda:\\
+\begin{center}
+\begin{array}{<formato>}
+$ 2 & -1 &  0 &  0 &  0$ &  $u_{1}$ & = &  $4\pi^{2}sin(5\pi1) + 0$\\
+$-1 &  2 & -1 &  0 &  0$ &  $u_{2}$ & = &  $4\pi^{2}sin(5\pi2)$\\
+$ 0 & -1 &  2 & -1 &  0$ &  $u_{3}$ & = &  $4\pi^{2}sin(5\pi3)$\\
+$ 0 &  0 & -1 &  2 & -1$ &  $u_{4}$ & = &  $4\pi^{2}sin(5\pi4)$\\
+$ 0 &  0 &  0 & -1 &  2$ &  $u_{5}$ & = &  $4\pi^{2}sin(5\pi5) + 0$\\
+\end{array}
+\end{center}
+Que corresponde a una matriz tridiagonal que el algoritmo de Thomas puede resolver.\\
+Este ejemplo ha sido adaptado del libro de Ernesto Aranda (Ver el apartado de Guía de librerías usadas).
+
+\end{document}
