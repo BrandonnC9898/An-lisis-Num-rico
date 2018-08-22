@@ -58,15 +58,15 @@ def sumarElementos(a):
 	return suma
 
 def funcion(x):
-	return math.asin(math.log(x + 2))
+	return math.log(x + 2) - math.sin(x)
 
 def recursivaF(x, e):
 	x1 = funcion(x)
 	return recursiva(x1, x, e)
 
 def recursiva(x, x1, e):
-	if (x <= e):
-		return x1
+	if (abs(x - x1) <= e):
+		return x
 	else:
 		y = x - (funcion(x)*(x-x1))/(funcion(x)-funcion(x-1))
 		print(y)
