@@ -1,0 +1,8 @@
+library(Richardson)
+
+fun = function(x){return(x^2)}
+
+x = seq(1,6,by=0.25)
+y = fun(x)
+
+richardson(x,y)

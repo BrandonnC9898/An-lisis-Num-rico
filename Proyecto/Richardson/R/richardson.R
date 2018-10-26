@@ -1,4 +1,4 @@
-richardson = function(x,y,h,n){
+richardson = function(x,y,h = 0.01,n = 3){
   require(PolynomF)
   lagrange = function(x,y,a){
     n = length(x)
@@ -24,14 +24,36 @@ richardson = function(x,y,h,n){
     }else{
       n1 = richardsonH(x,y,x0,(h/2),n-1)
       n0 = richardsonH(x,y,x0,h,n-1)
-      r = n1[1]+((n1[1]-n0[1])/(4^(n0[1]-1)-1))
-      e = (abs(n1[1]-n0[1]))/(4^(n0[1]-1)-1)
+      r = n1[1]+((n1[1]-n0[1])/(4^(n-1)-1))
+      e = (abs(n1[1]-n0[1]))/(4^(n-1)-1)
     }
     return(c(r,e))
   }
 
+  if(n > 15){
+    n = 15
+    cat("El numero de iteraciones es muy grande, se disminuir?n a ",n,"\n")
+  }
+  if(h >= x[length(x)] || h <= 0){
+    stop("h invalido")
+  }
+
+  minimo = 1
+  maximo = length(x)
+  for(i in 1:length(x)){
+    if((x[i]-h)>=x[1]){
+      minimo = i
+      break
+    }
+  }
+  for(i in 1:length(x)){
+    if((x[length(x)-i+1]+h)<=x[length(x)]){
+      maximo = length(x)-i+1
+      break
+    }
+  }
   cat("x\t\ty\t\tR\t\te\n")
-  for(i in 2:(length(x)-1)){
+  for(i in minimo:maximo){
     cat(x[i],"\t",y[i],"\t",richardsonH(x,y,x[i],h,n),"\n")
   }
 }
