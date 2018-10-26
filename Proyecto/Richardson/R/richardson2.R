@@ -1,14 +1,31 @@
 integral <- function(x, y){
 
-  pivotear <- function(ini, fin){
-    val = ini + fin
-    if((val %% 2) == 0){
-      pivote = (val/2)
+  maxTrape <- function(tam){
+    if(tam <= 2){
+      return (1)
     }
     else{
-      pivote = ((val+1)/2)
+      if((tam %% 2) == 0){
+        paso = (tam/2)
+      }
+      else{
+        paso = ((tam+1)/2)
+      }
+      return(1 + maxTrape(paso))
     }
-    return(pivote)
+  }
+
+  pasoPivote <- function(cantiParticiones, tamDatos){
+    while(cantiParticiones>1){
+      if((tamDatos %% 2) == 0){
+        tamDatos = (tamDatos/2)
+      }
+      else{
+        tamDatos = ((tamDatos+1)/2)
+      }
+      cantiParticiones = cantiParticiones - 1
+    }
+    return(tamDatos-1)
   }
 
   trapecio <- function(x1, y1, x2, y2){
@@ -17,32 +34,47 @@ integral <- function(x, y){
     return(area)
   }
 
+  integralApro <- function (nivel, tam, x, y){
+    total = 0
+    paso = pasoPivote(nivel, tam)
+    trap = seq(1, tam, by = paso)
+    anterior = -1
+    for (i in trap){
+      if(anterior == -1){
+        anterior = i
+      }
+      else{
+        total = total + trapecio(x[anterior], y[anterior], x[i], y[i])
+        anterior = i
+      }
+    }
+    return(total)
+  }
+
   if(length(x) != length(y)){
     stop("Los valores para 'Y' no coinciden con los valores en 'X'")
   } else if(length(x) < 3){
     stop("Se nesesitan mas valores para hallar la integral")
   } else{
 
-    posInicial = 1
-    posFinal = length(x)
-
-    #Integral con un solo trapecio
-    i1 = trapecio(x[posInicial], y[posInicial], x[posFinal], y[posFinal])
-    #Integral con dos trapecios
-    pivote = pivotear(posInicial, posFinal)
-    i2 = trapecio(x[posInicial], y[posInicial], x[pivote], y[pivote]) + trapecio(x[pivote], y[pivote], x[posFinal], y[posFinal])
-    #Integral con tres trapecios
-    pivote1 = pivotear(posInicial, pivote)
-    pivote2 = pivotear(pivote, posFinal)
-    i3 = trapecio(x[posInicial], y[posInicial], x[pivote1], y[pivote1]) + trapecio(x[pivote1], y[pivote1], x[pivote], y[pivote]) + trapecio(x[pivote], y[pivote], x[pivote2], y[pivote2]) + trapecio(x[pivote2], y[pivote2], x[posFinal], y[posFinal])
+    particiones = maxTrape(length(x))
+    inte = seq(1, particiones, by=1)
+    for (i in 1:particiones) {
+      inte[i] = integralApro(i, length(x), x, y)
+    }
   }
 
-  i21 = ((4/3*i2)-(1/3*i1))
-  i22 = ((4/3*i3)-(1/3*i2))
+  canti = particiones
+  nivel = 2
+  while(canti > 1){
+    for (i in 1:canti-1) {
+      inte[i] = (((4^(nivel-1))/((4^(nivel-1))-1))*inte[i+1])-((1/((4^(nivel-1))-1))*(inte[i]))
+    }
+    canti = canti -1
+    nivel = nivel +1
+  }
+  return(inte[1])
 
-  final = ((16/15*i22)-(1/15*i21))
-
-  cat("la integral definida de ", x[posInicial], "a", x[posFinal], " con los valores dados es de ", final)
-
-  return (final)
 }
+
+
