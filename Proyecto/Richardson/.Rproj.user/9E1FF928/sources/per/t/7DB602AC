@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541119753535.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2872614849",
+    "id" : "7DB602AC",
+    "lastKnownWriteTime" : 1541112237,
+    "last_content_update" : 1541112237,
+    "path" : "~/R/Paquete/Richardson/man/integral.Rd",
+    "project_path" : "man/integral.Rd",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

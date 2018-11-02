@@ -1,11 +1,10 @@
 Package: Richardson
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Extrapolacion de Richardson
+Version: 0.1.3
+Author: Diego Barajas <barajas-d@javeriana.edu.co>, Brandonn Cruz <brandonn_cruz@javeriana.edu.co>
+Maintainer: The package maintainer <barajas-d@javeriana.edu.co>
+Description: Calculate derivatives and integrals by means of Richardson's numerical method.
+License: GPL (version 2 or later)
 Encoding: UTF-8
 LazyData: true

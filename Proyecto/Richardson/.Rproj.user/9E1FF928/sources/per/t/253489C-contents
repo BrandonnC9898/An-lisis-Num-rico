@@ -1,0 +1,12 @@
+library(Richardson)
+
+fun = function(x){return(x^2)}
+x = seq(-1,3,by=0.25)
+y = fun(x)
+
+derivada(x,y)
+
+fun2 = function(x){return(x*exp(x))}
+y2 = fun2(x)
+
+derivada(x,y2,n=4)

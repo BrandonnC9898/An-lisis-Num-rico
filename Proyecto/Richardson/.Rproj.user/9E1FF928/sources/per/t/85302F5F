@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541119755575.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2185749197",
+    "id" : "85302F5F",
+    "lastKnownWriteTime" : 1541121005,
+    "last_content_update" : 1541121005289,
+    "path" : "~/R/Paquete/Richardson/man/derivada.Rd",
+    "project_path" : "man/derivada.Rd",
+    "properties" : {
+        "cursorPosition" : "10,23",
+        "scrollLine" : "2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

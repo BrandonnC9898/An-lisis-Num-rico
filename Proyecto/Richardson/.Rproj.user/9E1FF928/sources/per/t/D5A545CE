@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541119908465.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "310339732",
+    "id" : "D5A545CE",
+    "lastKnownWriteTime" : 1541119939,
+    "last_content_update" : 1541119939928,
+    "path" : "~/R/Paquete/Richardson/R/richardson.R",
+    "project_path" : "R/richardson.R",
+    "properties" : {
+        "cursorPosition" : "7,31",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
