@@ -51,6 +51,7 @@ integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
     return(total)
   }
 
+
   if(length(x) != length(y)){
     stop("Los valores para 'Y' no coinciden con los valores en 'X'")
   } else if(length(x) < 3){
@@ -60,9 +61,34 @@ integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
     if(maxParticiones == TRUE){
       particiones = maxTrape(length(x))
     }
+
     inte = seq(1, particiones, by=1)
+    error = seq(1, particiones, by=1)
+    AuxError1 = 0
     for (i in 1:particiones) {
       inte[i] = integralApro(i, length(x), x, y)
+
+      if(i == 1){
+        AuxError1 = abs(inte[i] - 0)
+        error[i] = AuxError1/1
+      }
+      else{
+        AuxError1 = abs(inte[i] - inte[i-1])
+        if(i == 2){
+          aux = ((1/error[i-1])^i)
+          if(aux == 1){
+            aux = 1
+          }
+          error[i] = AuxError1/(aux-1)
+        }
+        else{
+          aux = ((error[i-2]/error[i-1])^i)
+          if(aux == 1){
+            aux = 1
+          }
+          error[i] = AuxError1/(aux-1)
+        }
+      }
     }
   }
 
@@ -75,6 +101,8 @@ integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
     canti = canti -1
     nivel = nivel +1
   }
+
+  cat("Integral definida de ", x[1], " a ", x[length(x)], " de los puntos dados es de ", inte[1], " con un error aproximado de ", abs(error[length(inte)]), "\n")
   return(inte[1])
 
 }
