@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541110637508.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1080469508",
+    "id" : "FFAF8B2C",
+    "lastKnownWriteTime" : 1542116208,
+    "last_content_update" : 1542116208357,
+    "path" : "~/REPOSITORIO ANALISIS/Analisis-Numerico/RichardsonUltimo/ArchivoPruebaIntegralRichardson.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "33,0",
+        "scrollLine" : "14",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

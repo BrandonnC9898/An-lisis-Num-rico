@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1542115562200.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3613070157",
+    "id" : "E1FB633C",
+    "lastKnownWriteTime" : 1542112307,
+    "last_content_update" : 1542112307,
+    "path" : "~/REPOSITORIO ANALISIS/Analisis-Numerico/RichardsonUltimo/prueba.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "39,17",
+        "scrollLine" : "22"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

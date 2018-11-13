@@ -1,0 +1,33 @@
+funcion <- function(x){
+  return(cos(x))
+}
+
+x1 = seq(-pi/2, pi/2, by = pi/8)
+y1 = funcion(x1)
+
+cat("Integral de cos(x) definida desde -pi/2 hasta pi/2\n")
+Richardson::integral(x1, y1)
+
+
+
+funcion2 <- function(x){
+  return(x^2)
+}
+
+x2 = seq(-2, 2, by = 0.0001)
+y2 = funcion2(x2)
+
+cat("Integral de x^2 definida desde -2 hasta 2\n")
+Richardson::integral(x2, y2)
+
+
+
+funcion3 <- function(x){
+  return(exp(x^2))
+}
+
+x3 = seq(0, 1, by = 0.001)
+y3 = funcion3(x3)
+
+cat("Integral de e^(x^2) definida desde 0 hasta 1 \n")
+Richardson::integral(x3, y3)
