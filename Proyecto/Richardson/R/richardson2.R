@@ -1,5 +1,6 @@
 integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
 
+
   maxTrape <- function(tam){
     if(tam <= 2){
       return (1)
@@ -64,9 +65,12 @@ integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
 
     inte = seq(1, particiones, by=1)
     error = seq(1, particiones, by=1)
-    AuxError1 = 0
+    AuxError1 = 1
     for (i in 1:particiones) {
       inte[i] = integralApro(i, length(x), x, y)
+
+
+
 
       if(i == 1){
         AuxError1 = abs(inte[i] - 0)
@@ -75,20 +79,23 @@ integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
       else{
         AuxError1 = abs(inte[i] - inte[i-1])
         if(i == 2){
-          aux = ((1/error[i-1])^i)
-          if(aux == 1){
+          aux = abs(((1/error[i-1])^i)-1)
+          if(is.na(aux)){
             aux = 1
           }
-          error[i] = AuxError1/(aux-1)
+          error[i] = AuxError1/(aux)
         }
         else{
-          aux = ((error[i-2]/error[i-1])^i)
-          if(aux == 1){
+          aux = abs(((error[i-2]/error[i-1])^i)-1)
+          if(is.na(aux)){
             aux = 1
           }
-          error[i] = AuxError1/(aux-1)
+          error[i] = AuxError1/(aux)
         }
       }
+
+
+
     }
   }
 
@@ -106,5 +113,4 @@ integral <- function(x, y, maxParticiones = TRUE, particiones = 3){
   return(inte[1])
 
 }
-
 
